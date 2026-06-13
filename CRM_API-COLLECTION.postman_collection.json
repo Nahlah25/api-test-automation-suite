@@ -1,0 +1,322 @@
+{
+  "info": {
+    "_postman_id": "bd367861-a0b0-4cf0-aa63-99bc3dc6ad8e",
+    "name": "CRM_API-COLLECTION",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49662268",
+    "_collection_link": "https://go.postman.co/collection/49662268-bd367861-a0b0-4cf0-aa63-99bc3dc6ad8e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "account",
+      "item": [
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json=pm.response.json();\r",
+                  "pm.environment.set(\"token\",json.data.jwtToken);\r",
+                  "var json=pm.response.json();\r",
+                  "pm.environment.set(\"userid\",json.data.userId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"baithulfarahh@gmail.com\",\r\n\"password\":\"Nahlahali@25\",\r\n  \"role\": \"SHOPPER\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getuserinfo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Response time is less than 3000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+                  "});pm.test(\"userid is correct\",function(){\r",
+                  "    var json=pm.response.json();\r",
+                  "    pm.expect(json.data.userId).to.equal(320111);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"baithulfarahh@gmail.com\",\r\n\"password\":\"Nahlahali@25\",\r\n  \"role\": \"SHOPPER\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CHANGEPWD",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"city\": \"string\",\r\n  \"country\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"NAHLAH\",\r\n  \"gender\": \"FEMALE\",\r\n  \"lastName\": \"string\",\r\n  \"password\": \"Nahlahali25\",\r\n  \"phone\": 9876543212,\r\n  \"state\": \"string\",\r\n  \"zoneId\": \"string\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CART",
+      "item": [
+        {
+          "name": "ADDITEM",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 101,\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "VIEWITEM",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json=pm.response.json();\r",
+                  "pm.environment.set(\"itemId\",json.data[0].itemId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json=pm.response.json();\r",
+                  "pm.environment.set(\"productId\",json.data.productId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": 100,\r\n  \"quantity\": 2}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}/carts/{{itemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}",
+                "carts",
+                "{{itemId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shoppers/{{userid}}/carts/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{userid}}",
+                "carts",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
