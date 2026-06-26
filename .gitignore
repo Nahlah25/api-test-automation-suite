@@ -1,5 +1,3 @@
-* 
-!.gitignore 
-!CRM_API-COLLECTION.postman_collection.json 
-!DEV.postman_environment.json 
-!set-env.js 
+target/
+test-output/
+*.log
